@@ -17,6 +17,8 @@ app.config['SECRET_KEY'] = os.urandom(24)  # Vous pouvez aussi définir une clé
 def index():
     return render_template('index.html')
 
+
+
 if __name__ == "__main__":
     # Lancer l'application Flask en mode debug
     app.run(debug=True, port=5003)

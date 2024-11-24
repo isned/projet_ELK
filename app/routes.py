@@ -38,3 +38,9 @@ def upload_file():
             return redirect(url_for('main.home'))
 
     return render_template("upload.html", title="Uploader un fichier")
+
+
+
+@main.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
