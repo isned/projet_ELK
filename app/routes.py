@@ -16,7 +16,7 @@ def home():
     return render_template("index.html", title="Bienvenue sur ELK")
 
 
-@main.route("/upload", methods=["GET", "POST"])
+'''@main.route("/upload", methods=["GET", "POST"])
 def upload_file():
     if request.method == "POST":
         if 'file' not in request.files:
@@ -37,7 +37,32 @@ def upload_file():
             flash(f"Fichier '{filename}' uploadé avec succès !", "success")
             return redirect(url_for('main.home'))
 
+    return render_template("upload.html", title="Uploader un fichier")'''
+
+@main.route("/upload", methods=["GET", "POST"])
+def upload_file():
+    if request.method == "POST":
+        if 'file' not in request.files:
+            flash("Aucun fichier sélectionné", "danger")
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            flash("Aucun fichier sélectionné", "danger")
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = file.filename
+            filepath = os.path.join(UPLOAD_FOLDER, filename)
+            file.save(filepath)
+
+            flash(f"Fichier '{filename}' uploadé avec succès !", "success")
+            # Redirection vers la page dashboard
+            return redirect(url_for('main.dashboard'))
+
     return render_template("upload.html", title="Uploader un fichier")
+
 
 
 
