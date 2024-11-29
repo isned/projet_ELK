@@ -1,24 +1,32 @@
-import os
-from flask import render_template
+from flask import redirect, render_template, request, url_for
 from app import create_app
-#from main import main as main_blueprint  # type: ignore # Assurez-vous que le blueprint est bien importé
+import os
 
-# Créer l'application Flask via la factory function
+# Create the Flask app via the factory function
 app = create_app()
 
-# Définir la clé secrète pour les sessions
-app.config['SECRET_KEY'] = os.urandom(24)  # Vous pouvez aussi définir une clé manuellement si vous le souhaitez
+# Define the secret key for sessions
+app.config['SECRET_KEY'] = os.urandom(24)
 
-# Enregistrer le blueprint
-#app.register_blueprint(main_blueprint)
+# Register blueprint (if using blueprints)
+# app.register_blueprint(main_blueprint)
 
-# Route d'index
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', title='Accueil')
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        # Handle the uploaded file
+        return redirect(url_for('upload'))  # Redirect back to the upload page after upload
+    return render_template('upload.html', title='Upload')
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html', title='Dashboard')
 
 if __name__ == "__main__":
-    # Lancer l'application Flask en mode debug
+    # Run the Flask application in debug mode
     app.run(debug=True, port=5003)
