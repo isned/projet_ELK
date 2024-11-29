@@ -27,6 +27,11 @@ def upload():
 def dashboard():
     return render_template('dashboard.html', title='Dashboard')
 
+
+@app.route('/action')
+def action():
+    return render_template('action.html', title='Actions')
+
 if __name__ == "__main__":
     # Run the Flask application in debug mode
     app.run(debug=True, port=5003)
