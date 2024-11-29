@@ -1,3 +1,4 @@
+from elasticsearch import Elasticsearch
 from flask import redirect, render_template, request, url_for
 from app import create_app
 import os
@@ -27,10 +28,42 @@ def upload():
 def dashboard():
     return render_template('dashboard.html', title='Dashboard')
 
-
 @app.route('/action')
 def action():
-    return render_template('action.html', title='Actions')
+    # Initialize the Elasticsearch client with scheme
+    es = Elasticsearch([{'host': 'localhost', 'port': 9200, 'scheme': 'http'}])
+
+    # Fetch data from Elasticsearch
+    response = es.search(index="customers_index", body={
+        "query": {
+            "match_all": {}
+        }
+    })
+    
+    # Parse the Elasticsearch response and extract hits
+    customers = response['hits']['hits']
+    
+    # Convert the Elasticsearch results to a list of dictionaries
+    customer_data = []
+    for customer in customers:
+        source = customer['_source']
+        customer_data.append({
+            'Index': customer['_id'],
+            'Customer Id': source.get('customer_id', ''),
+            'First Name': source.get('first_name', ''),
+            'Last Name': source.get('last_name', ''),
+            'Company': source.get('company', ''),
+            'City': source.get('city', ''),
+            'Country': source.get('country', ''),
+            'Phone 1': source.get('phone1', ''),
+            'Phone 2': source.get('phone2', ''),
+            'Email': source.get('email', ''),
+            'Subscription Date': source.get('subscription_date', ''),
+            'Website': source.get('website', '')
+        })
+    
+    return render_template('action.html', customers=customer_data)
+
 
 if __name__ == "__main__":
     # Run the Flask application in debug mode
