@@ -22,14 +22,6 @@
             color: #ffffff !important;
         }
 
-        header {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 1.5em;
-        }
-
         .dashboard-container {
             max-width: 1200px;
             margin: 20px auto;
@@ -101,7 +93,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
                     </li>
-                   
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('action') }}">Actions</a>
                     </li>
@@ -110,26 +101,29 @@
         </div>
     </nav>
 
+    <!-- Dashboard Selector -->
     <div class="dashboard-container">
         <div class="dashboard-selector">
             <label for="dashboardSelect">Select a Dashboard:</label>
             <select id="dashboardSelect">
-                <option value="http://localhost:5601/app/dashboards#/view/058a8730-a423-11ef-a93e-89e9e308c59a?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d%2Fd,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,syncColors:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:(),savedVis:(data:(aggs:!((enabled:!t,id:'2',params:(field:Product.keyword,missingBucket:!f,missingBucketLabel:Missing,order:desc,orderBy:_key,otherBucket:!f,otherBucketLabel:Other,size:10),schema:segment,type:terms),(enabled:!t,id:'3',params:(field:'Quantity%20Ordered'),schema:metric,type:sum)),searchSource:(filter:!(),index:'87828a50-a421-11ef-a93e-89e9e308c59a',query:(language:kuery,query:''))),description:'',id:'',params:(addLegend:!t,addTimeMarker:!f,addTooltip:!t,categoryAxes:!((id:CategoryAxis-1,labels:(filter:!t,show:!t,truncate:100),position:bottom,scale:(type:linear),show:!t,style:(),title:(),type:category)),detailedTooltip:!t,grid:(categoryLines:!f),labels:(show:!f),legendPosition:right,maxLegendLines:1,palette:(name:default,type:palette),radiusRatio:0,seriesParams:!((circlesRadius:1,data:(id:'3',label:'Sum%20of%20Quantity%20Ordered'),drawLinesBetweenPoints:!t,interpolate:linear,lineWidth:2,mode:stacked,show:!t,showCircles:!t,type:histogram,valueAxis:ValueAxis-1)),thresholdLine:(color:%23E7664C,show:!f,style:full,value:10,width:1),times:!(),truncateLegend:!t,type:histogram,valueAxes:!((id:ValueAxis-1,labels:(filter:!f,rotate:0,show:!t,truncate:100),name:LeftAxis-1,position:left,scale:(mode:normal,type:linear),show:!t,style:(),title:(text:'Sum%20of%20Quantity%20Ordered'),type:value))),title:'R%C3%A9partition%20des%20quantit%C3%A9s%20command%C3%A9es%20pour%20chaque%20produit',type:histogram,uiState:(vis:(colors:('Sum%20of%20Quantity%20Ordered':%23b0c9e0))))),gridData:(h:15,i:'1a60968e-42ff-42b8-bf79-a3e38451c287',w:24,x:0,y:0),panelIndex:'1a60968e-42ff-42b8-bf79-a3e38451c287',type:visualization,version:'7.17.25')">Sales Dashboard</option>
-                <option value="http://localhost:5601/app/dashboards#/view/d78ebde0-aa4b-11ef-84d0-e958910fdda0?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d%2Fd,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,syncColors:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:(),savedVis:(data:(aggs:!((enabled:!t,id:'1',params:(customLabel:'Count%20des%20enregistrements%20des%20clients'),schema:metric,type:count),(enabled:!t,id:'2',params:(customLabel:'Champ%20Country',field:Country.keyword,missingBucket:!f,missingBucketLabel:Missing,order:desc,orderBy:'1',otherBucket:!f,otherBucketLabel:Other,size:16),schema:segment,type:terms)),searchSource:(filter:!(),index:abdd6a90-a841-11ef-90f6-57d394e76262,query:(language:kuery,query:''))),description:'',id:'',params:(addLegend:!t,addTimeMarker:!f,addTooltip:!t,categoryAxes:!((id:CategoryAxis-1,labels:(filter:!t,show:!t,truncate:100),position:bottom,scale:(type:linear),show:!t,style:(),title:(),type:category)),detailedTooltip:!t,grid:(categoryLines:!f),labels:(show:!f),legendPosition:right,maxLegendLines:1,palette:(name:default,type:palette),radiusRatio:0,seriesParams:!((circlesRadius:1,data:(id:'1',label:'Count%20des%20enregistrements%20des%20clients'),drawLinesBetweenPoints:!t,interpolate:linear,lineWidth:2,mode:stacked,show:!t,showCircles:!t,type:histogram,valueAxis:ValueAxis-1)),thresholdLine:(color:%23E7664C,show:!f,style:full,value:10,width:1),times:!(),truncateLegend:!t,type:histogram,valueAxes:!((id:ValueAxis-1,labels:(filter:!f,rotate:0,show:!t,truncate:100),name:LeftAxis-1,position:left,scale:(mode:normal,type:linear),show:!t,style:(),title:(text:'Count%20des%20enregistrements%20des%20clients'),type:value))),title:'Enregistrement%20des%20clients%20par%20pays',type:histogram,uiState:(vis:(colors:('Count%20des%20enregistrements%20des%20clients':%23f06c6d))))),gridData:(h:15,i:'1a60968e-42ff-42b8-bf79-a3e38451c287',w:24,x:0,y:0),panelIndex:'1a60968e-42ff-42b8-bf79-a3e38451c287',type:visualization,version:'7.17.25')">Customers Dashboard</option>
-                <option value="http://localhost:5601/app/dashboards#/view/34691380-a81a-11ef-bb9f-f12e79db07db?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d%2Fd,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,syncColors:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:(),savedVis:(data:(aggs:!((enabled:!t,id:'3',params:(field:Category.keyword,missingBucket:!f,missingBucketLabel:Missing,order:desc,orderBy:_key,otherBucket:!f,otherBucketLabel:Other,size:10),schema:segment,type:terms),(enabled:!t,id:'4',params:(field:TotalPrice),schema:metric,type:sum)),searchSource:(filter:!(),index:'d9e60950-4217-11ef-9cc9-cffb832d04fc',query:(language:kuery,query:''))),description:'',id:'',params:(addLegend:!t,addTimeMarker:!f,addTooltip:!t,categoryAxes:!((id:CategoryAxis-1,labels:(filter:!t,show:!t,truncate:100),position:bottom,scale:(type:linear),show:!t,style:(),title:(),type:category)),detailedTooltip:!t,grid:(categoryLines:!f),labels:(show:!f),legendPosition:right,maxLegendLines:1,palette:(name:default,type:palette),radiusRatio:0,seriesParams:!((circlesRadius:1,data:(id:'4',label:'Sum%20of%20TotalPrice'),drawLinesBetweenPoints:!t,interpolate:linear,lineWidth:2,mode:stacked,show:!t,showCircles:!t,type:histogram,valueAxis:ValueAxis-1)),thresholdLine:(color:%23E7664C,show:!f,style:full,value:10,width:1),times:!(),truncateLegend:!t,type:histogram,valueAxes:!((id:ValueAxis-1,labels:(filter:!f,rotate:0,show:!t,truncate:100),name:LeftAxis-1,position:left,scale:(mode:normal,type:linear),show:!t,style:(),title:(text:'Sum%20of%20TotalPrice'),type:value))),title:'Prix%20total%20par%20cat%C3%A9gorie',type:histogram,uiState:(vis:(colors:('Sum%20of%20TotalPrice':%23c9d4a3))))),gridData:(h:15,i:'1a60968e-42ff-42b8-bf79-a3e38451c287',w:24,x:0,y:0),panelIndex:'1a60968e-42ff-42b8-bf79-a3e38451c287',type:visualization,version:'7.17.25')">Books Dashboard</option>
+                <option value="http://localhost:5601/app/dashboards#/view/058a8730-a423-11ef-a93e-89e9e308c59a?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d/d,to:now))&hide-filter-bar=true">Sales Dashboard</option>
+                <option value="http://localhost:5601/app/dashboards#/view/d78ebde0-aa4b-11ef-84d0-e958910fdda0?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d/d,to:now))&hide-filter-bar=true">Customers Dashboard</option>
+                <option value="http://localhost:5601/app/dashboards#/view/34691380-a81a-11ef-bb9f-f12e79db07db?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d/d,to:now))">Books Dashboard</option>
             </select>
         </div>
 
+        <!-- Iframe Container -->
         <div class="iframe-container">
-            <iframe id="dashboardIframe" src="" frameborder="0"></iframe>
+            <iframe id="dashboardIframe" src="http://localhost:5601/app/dashboards#/view/058a8730-a423-11ef-a93e-89e9e308c59a?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d/d,to:now))&hide-filter-bar=true" frameborder="0"></iframe>
         </div>
     </div>
 
+    <!-- JavaScript -->
     <script>
         const dashboardSelect = document.getElementById('dashboardSelect');
         const iframe = document.getElementById('dashboardIframe');
 
-        dashboardSelect.addEventListener('change', function() {
+        dashboardSelect.addEventListener('change', function () {
             iframe.src = dashboardSelect.value;
         });
     </script>
