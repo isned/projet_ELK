@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actions</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <style>
         /* Styles CSS de la page */
         .navbar {
@@ -14,7 +15,7 @@
             color: #ffffff !important;
         }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f7fc;
             margin: 0;
             padding: 0;
@@ -29,45 +30,58 @@
         .container {
             width: 80%;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 100px auto 20px;
+            padding: 30px;
             background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            margin-top: 80px;
+            background-color: #ffffff;
         }
         h1 {
             color: #4CAF50;
-            font-size: 2em;
-            margin-bottom: 20px;
+            font-size: 2.5em;
+            margin-bottom: 30px;
             text-align: center;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
         }
         form {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
             margin-bottom: 20px;
+        }
+        select, button {
+            padding: 12px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        select {
+            background-color: #f9f9f9;
         }
         button {
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
         button:hover {
             background-color: #45a049;
         }
         table {
             width: 100%;
+            margin-top: 30px;
             border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         table th, table td {
-            padding: 12px;
+            padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
@@ -77,19 +91,52 @@
             font-weight: bold;
         }
         table tr:hover {
+            background-color: #f9f9f9;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .page-item.active .page-link {
+            background-color: #051661;
+            border-color: #051661;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 1.5em;
+            color: #333;
+        }
+        .list-group-item {
+            padding: 15px;
+            border: none;
+            background-color: #fafafa;
+            margin-bottom: 10px;
+            border-radius: 6px;
+        }
+        .list-group-item:hover {
             background-color: #f1f1f1;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Uploader</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}">Accueil</a>
+                        <a class="nav-link" href="{{ url_for('main.home') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
@@ -106,63 +153,72 @@
     </nav>
 
     <div class="container">
-        <h1>Customer Actions</h1>
-
-        <!-- Formulaire pour filtrer les clients -->
-        <form action="/action" method="POST">
-            <label>
-                <input type="radio" name="filter_by" value="company"> Company
-            </label>
-            <label>
-                <input type="radio" name="filter_by" value="city"> City
-            </label>
-            <label>
-                <input type="radio" name="filter_by" value="country"> Country
-            </label>
-            <button type="submit" class="btn btn-primary">Apply Filter</button>
-        </form>
-
-        <hr>
-
-        <h2>Customer List</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Index</th>
-                    <th>Customer Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Company</th>
-                    <th>City</th>
-                    <th>Country</th>
-                    <th>Phone 1</th>
-                    <th>Phone 2</th>
-                    <th>Email</th>
-                    <th>Subscription Date</th>
-                    <th>Website</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for customer in customers %}
-                    <tr>
-                        <td>{{ customer['Index'] }}</td>
-                        <td>{{ customer['Customer Id'] }}</td>
-                        <td>{{ customer['First Name'] }}</td>
-                        <td>{{ customer['Last Name'] }}</td>
-                        <td>{{ customer['Company'] }}</td>
-                        <td>{{ customer['City'] }}</td>
-                        <td>{{ customer['Country'] }}</td>
-                        <td>{{ customer['Phone 1'] }}</td>
-                        <td>{{ customer['Phone 2'] }}</td>
-                        <td>{{ customer['Email'] }}</td>
-                        <td>{{ customer['Subscription Date'] }}</td>
-                        <td>{{ customer['Website'] }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="row">
+            <!-- Left Column: Filter Form for Customers -->
+            <div class="col-md-6">
+                <h2>Filter Customers</h2>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="selected_city">Select City:</label>
+                        <select name="selected_city" id="selected_city" class="form-control">
+                            <option value="">All Cities</option>
+                            {% for city in cities %}
+                                <option value="{{ city }}" {% if city == selected_city %}selected{% endif %}>{{ city }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="selected_company">Select Company:</label>
+                        <select name="selected_company" id="selected_company" class="form-control">
+                            <option value="">All Companies</option>
+                            {% for company in companies %}
+                                <option value="{{ company }}" {% if company == selected_company %}selected{% endif %}>{{ company }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+    
+            <!-- Right Column: Display Filtered Results (Sales) -->
+            <div class="col-md-6">
+                <h2>Filtered Customers (Total: {{ total_customers }})</h2>
+                <ul class="list-group">
+                    {% for customer in customers %}
+                        <li class="list-group-item">
+                            <strong>{{ customer['First Name'] }} {{ customer['Last Name'] }}</strong><br>
+                            City: {{ customer['City'] }}<br>
+                            Company: {{ customer['Company'] }}<br>
+                            Email: {{ customer['Email'] }}<br>
+                        </li>
+                    {% endfor %}
+                </ul>
+    
+                <h2>Filtered Sales Logs (Total: {{ total_logs }})</h2>
+                <ul class="list-group">
+                    {% for log in logs %}
+                        <li class="list-group-item">
+                            <strong>{{ log['Product'] }}</strong><br>
+                            Order ID: {{ log['Order ID'] }}<br>
+                            Price: {{ log['Price Each'] }}<br>
+                            Quantity: {{ log['Quantity Ordered'] }}<br>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
+
+    <!-- Include JS for Select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for dropdowns
+            $('select').select2();
+        });
+    </script>
 
 </body>
 </html>
