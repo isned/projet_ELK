@@ -33,14 +33,12 @@
 
         .dashboard-selector {
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
 
         .dashboard-selector label {
             font-size: 1.2em;
             font-weight: bold;
+            margin-right: 15px;
         }
 
         .dashboard-selector select {
@@ -78,15 +76,20 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Uploader</a>
+            <a class="navbar-brand" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5-.5h4.293l-.146-.146a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708L11.207 9.4H15.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M7.646 1.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 1 1-.708.708L8.5 2.707V12.5a.5.5 0 0 1-1 0V2.707L4.854 5.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                </svg>
+            </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.home') }}">Accueil</a>
-
+                        <a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
@@ -104,12 +107,11 @@
 
     <!-- Dashboard Selector -->
     <div class="dashboard-container">
-        <div class="dashboard-selector">
+        <div class="dashboard-selector d-flex align-items-center">
             <label for="dashboardSelect">Select a Dashboard:</label>
             <select id="dashboardSelect">
                 <option value="http://localhost:5601/app/dashboards#/view/058a8730-a423-11ef-a93e-89e9e308c59a?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d/d,to:now))&hide-filter-bar=true">Sales Dashboard</option>
                 <option value="http://localhost:5601/app/dashboards#/view/d78ebde0-aa4b-11ef-84d0-e958910fdda0?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d/d,to:now))&hide-filter-bar=true">Customers Dashboard</option>
-                <option value="http://localhost:5601/app/dashboards#/view/34691380-a81a-11ef-bb9f-f12e79db07db?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-90d/d,to:now))">Books Dashboard</option>
             </select>
         </div>
 

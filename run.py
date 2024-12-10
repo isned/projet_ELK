@@ -215,18 +215,22 @@ def dashboard():
 
 @app.route('/action', methods=['GET', 'POST'])
 def action():
-    # Define two indices: one for customers and one for logs
-    customer_index = "customers_index"
-    logs_index = "logs-2024.11.16"
+     return render_template("action.html")
 
-    # Récupérer toutes les villes uniques pour les clients
+    
+@app.route("/customers", methods=['GET', 'POST'])
+def customers_page():
+    # Elasticsearch query setup
+    customer_index = "customers_index"
+
+    # Requête d'agrégation pour récupérer toutes les villes uniques
     city_aggregation_query = {
         "size": 0,
         "aggs": {
             "unique_cities": {
                 "terms": {
-                    "field": "City.keyword",  # Utiliser le champ exact pour une agrégation
-                    "size": 100  # Nombre maximum de villes à récupérer
+                    "field": "City.keyword",  
+                    "size": 100
                 }
             }
         }
@@ -234,14 +238,14 @@ def action():
     city_response = es.search(index=customer_index, body=city_aggregation_query)
     cities = [bucket['key'] for bucket in city_response['aggregations']['unique_cities']['buckets']]
 
-    # Récupérer toutes les entreprises uniques pour les clients
+    # Requête d'agrégation pour récupérer toutes les entreprises uniques
     company_aggregation_query = {
         "size": 0,
         "aggs": {
             "unique_companies": {
                 "terms": {
-                    "field": "Company.keyword",  # Utiliser le champ exact pour une agrégation
-                    "size": 100  # Nombre maximum d'entreprises à récupérer
+                    "field": "Company.keyword",  
+                    "size": 100
                 }
             }
         }
@@ -249,17 +253,16 @@ def action():
     company_response = es.search(index=customer_index, body=company_aggregation_query)
     companies = [bucket['key'] for bucket in company_response['aggregations']['unique_companies']['buckets']]
 
-    # Initialiser la liste des clients et les variables sélectionnées
-    customers = []
+    # Handling filters from POST request
     selected_city = None
     selected_company = None
+    customers = []
 
     if request.method == 'POST':
-        # Récupérer la ville et l'entreprise sélectionnées
         selected_city = request.form.get('selected_city')
         selected_company = request.form.get('selected_company')
 
-        # Construire la requête de filtrage pour les deux indices
+        # Build filtering query
         query = {
             "query": {
                 "bool": {
@@ -270,55 +273,123 @@ def action():
 
         if selected_city:
             query['query']['bool']['must'].append({
-                "match": {
-                    "City": selected_city  # Rechercher sur le champ City
-                }
+                "match": {"City": selected_city}
             })
 
         if selected_company:
             query['query']['bool']['must'].append({
-                "match": {
-                    "Company": selected_company  # Rechercher sur le champ Company
-                }
+                "match": {"Company": selected_company}
             })
 
-        # Exécuter la recherche filtrée pour les deux indices
+        # Execute the search with filters
         customer_response = es.search(index=customer_index, body=query)
-        log_response = es.search(index=logs_index, body=query)
-
-        # Collecter les résultats des deux indices
         customers = [hit['_source'] for hit in customer_response['hits']['hits']]
-        logs = [hit['_source'] for hit in log_response['hits']['hits']]
+
+        print(f"Filtered Customers: {customers}")  # Print to check data
 
     else:
-        # Si pas de filtrage, récupérer tous les clients et logs
-        customer_response = es.search(index=customer_index, body={"size": 10})
-        log_response = es.search(index=logs_index, body={"size": 10})
+        # If no filter, get all customers
+        customer_response = es.search(index=customer_index, body={"size": 1000})
         customers = [hit['_source'] for hit in customer_response['hits']['hits']]
-        logs = [hit['_source'] for hit in log_response['hits']['hits']]
 
-    # Calculer le total des clients et logs, filtré ou non filtré
-    if not selected_city and not selected_company:
-        # Total de tous les clients et logs sans filtre
-        total_customers = es.count(index=customer_index)['count']
-        total_logs = es.count(index=logs_index)['count']
-    else:
-        # Total des clients et logs après filtrage
-        total_customers = len(customers)
-        total_logs = len(logs)
+        print(f"All Customers: {customers}")  # Print to check data
 
-    # Passer les deux ensembles de résultats (clients et logs) à la template
+    # Calculate total customers
+    total_customers = len(customers)
+
+    # Return to template with context
     return render_template(
-        'action.html',
+        'customers.html',
         customers=customers,
-        logs=logs,  # Passer aussi les logs filtrés
         cities=cities,
         companies=companies,
         selected_city=selected_city,
         selected_company=selected_company,
-        total_customers=total_customers,
-        total_logs=total_logs  # Passer le total des logs à la template
+        total_customers=total_customers
     )
+'''@app.route("/sales", methods=['GET'])
+def sales_page():
+    sales_index = "logs-2024.11.16"
+    selected_day = request.args.get('day')
+
+    if selected_day:
+        sales_query = {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {
+                            "term": {
+                                "Order Date.keyword": f"4/{int(selected_day):02d}/2019"
+                            }
+                        }
+                    ]
+                }
+            },
+            "size": 0,
+            "aggs": {
+                "total_orders": {
+                    "value_count": {
+                        "field": "Order ID.keyword"
+                    }
+                }
+            }
+        }
+        sales_response = es.search(index=sales_index, body=sales_query)
+        total_orders = sales_response['aggregations']['total_orders']['value']
+    else:
+        total_orders = None
+        selected_day = None
+
+    return render_template('sales.html', total_orders=total_orders, selected_day=selected_day)
+'''
+@app.route("/sales", methods=['GET'])
+def sales_page():
+    sales_index = "logs-2024.11.16"
+    min_price = request.args.get('min_price', type=float)
+    max_price = request.args.get('max_price', type=float)
+
+    if min_price is not None and max_price is not None:
+        # Construire la requête Elasticsearch pour filtrer les produits par plage de prix
+        products_query = {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {
+                            "range": {
+                                "Price Each": {
+                                    "gte": min_price,
+                                    "lte": max_price
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "aggs": {
+                "products": {
+                    "terms": {
+                        "field": "Product.keyword",
+                        "size": 10
+                    }
+                }
+            }
+        }
+
+        # Exécuter la requête Elasticsearch
+        products_response = es.search(index=sales_index, body=products_query)
+
+        # Récupérer les produits trouvés
+        products = [
+            {
+                "product": bucket["key"],
+                "count": bucket["doc_count"]
+            }
+            for bucket in products_response["aggregations"]["products"]["buckets"]
+        ]
+    else:
+        products = None
+
+    return render_template('sales.html', products=products, min_price=min_price, max_price=max_price)
 
 
 # Flask entry point

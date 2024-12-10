@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actions</title>
+    <title>Sales Management</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Navbar remains the same as per the original design */
+        /* Navbar styling */
         .navbar {
             background-color: #051661;
         }
@@ -43,44 +43,40 @@
             font-weight: bold;
         }
 
-        .list-group-item {
-            padding: 20px 20px;
-            border: none;
+        .btn-primary {
+            background-color: #051661;
+            border-color: #051661;
+        }
+
+        .btn-primary:hover {
+            background-color: #03204d;
+            border-color: #03204d;
+        }
+
+        .sales-card {
             background-color: #ffffff;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .list-group-item:hover {
-            background-color: #e8f0fe;
-            transform: translateY(-2px);
-        }
-
-        .list-group-item a {
-            text-decoration: none;
-            color: #051661;
-            font-size: 1.2em;
+        .sales-card h5 {
+            font-size: 1.25em;
+            margin-bottom: 10px;
             font-weight: bold;
-            margin-left: 15px;
         }
 
-        .list-group-item a:hover {
-            color: #4CAF50;
-        }
-
-        .icon {
-            font-size: 1.5em;
-            color: #4CAF50;
+        .sales-card p {
+            font-size: 1em;
+            color: #666666;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar remains unchanged -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
@@ -108,22 +104,40 @@
             </div>
         </div>
     </nav>
-
-    <div class="container">
-        <h1>Actions</h1>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <i class="icon fas fa-user-friends"></i>
-                <a href="{{ url_for('customers_page') }}">Customers</a>
-            </li>
-            <li class="list-group-item">
-                <i class="icon fas fa-chart-line"></i>
-                <a href="{{ url_for('sales_page') }}">Sales</a>
-            </li>
-        </ul>
+    <div class="container mt-5">
+        <h1>Products by Price Range</h1>
+        <form method="GET" action="{{ url_for('sales_page') }}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="min_price" class="form-label">Minimum Price</label>
+                    <input type="number" class="form-control" id="min_price" name="min_price" placeholder="Enter minimum price" step="0.01" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="max_price" class="form-label">Maximum Price</label>
+                    <input type="number" class="form-control" id="max_price" name="max_price" placeholder="Enter maximum price" step="0.01" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    
+        {% if products is not none %}
+            <div class="products-list mt-4">
+                <h2>Products in Price Range {{ min_price }} - {{ max_price }}</h2>
+                <ul class="list-group">
+                    {% for product in products %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ product.product }}
+                            <span class="badge bg-primary rounded-pill">{{ product.count }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    
+    
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
