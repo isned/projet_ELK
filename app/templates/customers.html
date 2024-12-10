@@ -34,14 +34,22 @@
         }
         .card-header {
             font-weight: bold;
+            background-color: #6c757d; /* Gray background */
+            color: #ffffff;
         }
         .btn-primary {
-            background-color: #4CAF50;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #45a049;
-        }
+    background-color: #051661; /* Couleur de la barre de navigation */
+    border: none;
+    font-size: 0.9rem; /* Réduction de la taille */
+    padding: 0.5rem 1rem; /* Ajustement des marges internes */
+   
+}
+
+
+.btn-primary:hover {
+    background-color: #03124a; /* Couleur légèrement plus foncée pour le survol */
+}
+
         .list-group {
             max-height: 300px; /* Height limit */
             overflow-y: auto; /* Enable scrolling */
@@ -93,7 +101,7 @@
             <!-- Total Customers Card -->
             <div class="col-lg-4">
                 <div class="card text-center">
-                    <div class="card-header bg-primary text-white">Total Customers</div>
+                    <div class="card-header bg-secondary text-white">Total Customers</div>
                     <div class="card-body">
                         <h2 class="text-success">{{ total_customers }}</h2>
                     </div>
@@ -103,7 +111,7 @@
             <!-- Filters and List -->
             <div class="col-lg-8">
                 <div class="card mb-4">
-                    <div class="card-header bg-success text-white">Filter Options</div>
+                    <div class="card-header bg-secondary text-white">Filter Options</div>
                     <div class="card-body">
                         <form method="POST" class="row g-3">
                             <div class="col-md-6">
@@ -125,18 +133,17 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                                <button type="submit" class="btn btn-primary ">Apply Filters</button>
                             </div>
                         </form>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header bg-primary text-white">Customers List</div>
+                    <div class="card-header bg-secondary text-white">Customers List</div>
                     <div class="card-body">
                         <div class="list-group-header">
                             <span>Customers Name</span>
-                            
                         </div>
                         <ul class="list-group">
                             {% for customer in customers %}
