@@ -58,7 +58,12 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">MyApp</a>
+          <a class="navbar-brand" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5-.5h4.293l-.146-.146a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708L11.207 9.4H15.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M7.646 1.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 1 1-.708.708L8.5 2.707V12.5a.5.5 0 0 1-1 0V2.707L4.854 5.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                </svg>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -130,8 +135,8 @@
                     <div class="card-header bg-primary text-white">Customers List</div>
                     <div class="card-body">
                         <div class="list-group-header">
-                            <span>First Name</span>
-                            <span>Last Name</span>
+                            <span>Customers Name</span>
+                            
                         </div>
                         <ul class="list-group">
                             {% for customer in customers %}
