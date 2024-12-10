@@ -1,0 +1,11 @@
+Order ID,Product,Quantity Ordered,Price Each,Order Date,Purchase Address
+1,USB-C Charging Cable,2,11.95,4/19/2019 8:46,"917 1st St, Dallas, TX 75001"
+2,Bose SoundSport Headphones,1,99.99,4/7/2019 22:30,"682 Chestnut St, Boston, MA 02215"
+3,Google Phone,1,600.0,4/12/2019 14:38,"669 Spruce St, Los Angeles, CA 90001"
+4,Wired Headphones,1,11.99,4/12/2019 14:38,"669 Spruce St, Los Angeles, CA 90001"
+5,Wired Headphones,1,11.99,4/30/2019 9:27,"333 8th St, Los Angeles, CA 90001"
+6,USB-C Charging Cable,1,11.95,4/29/2019 13:03,"381 Wilson St, San Francisco, CA 94016"
+7,Bluetooth Speaker,2,49.99,5/1/2019 11:20,"502 Pine St, Chicago, IL 60610"
+8,Laptop Charger,1,25.99,5/3/2019 14:10,"123 Oak Ave, Miami, FL 33101"
+9,Wireless Mouse,3,19.99,5/7/2019 10:15,"700 Maple Dr, Austin, TX 73301"
+10,Smartwatch,1,199.99,5/10/2019 16:05,"84 Elm St, Seattle, WA 98101"

@@ -5,20 +5,14 @@ import subprocess
 import csv
 from app import create_app
 
-
-
-from flask import Flask, request, render_template
-from elasticsearch import Elasticsearch
-
+# Elasticsearch configuration
 es = Elasticsearch("http://localhost:9200")
+
 # Create the Flask app via the factory function
 app = create_app()
 
 # Define the secret key for sessions
 app.config['SECRET_KEY'] = os.urandom(24)
-
-# Elasticsearch configuration
-es = Elasticsearch([{'host': 'localhost', 'port': 9200, 'scheme': 'http'}])
 
 UPLOAD_FOLDER = 'app/static/uploads'
 ALLOWED_EXTENSIONS = {'csv'}
@@ -35,7 +29,7 @@ def index_to_elasticsearch(filepath):
             reader = csv.DictReader(f)
             for row in reader:
                 # Create a document from CSV data and send to Elasticsearch
-                es.index(index='customers_index', doc_type='_doc', body=row)
+                es.index(index='customers_index', document=row)
         print("Data successfully indexed into Elasticsearch.")
     except Exception as e:
         print(f"Error indexing data into Elasticsearch: {e}")
@@ -47,9 +41,25 @@ def start_logstash_processing(filepath):
         logstash_path = "/usr/share/logstash"  # Remplacer par le chemin réel de Logstash
         config_file = "/etc/logstash/conf.d/logstash_main.conf"  # Replace with the actual Logstash config path
 
-        # Run Logstash via subprocess
-        subprocess.run([f"{logstash_path}/bin/logstash", "-f", config_file], check=True)
-        print(f"Logstash processing complete for file: {filepath}")
+        # Vérifiez si le fichier de configuration existe
+        if not os.path.exists(config_file):
+            print(f"Configuration file {config_file} does not exist!")
+            return
+
+        # Run Logstash via subprocess, using the given config file
+        result = subprocess.run(
+            [f"{logstash_path}/bin/logstash", "-f", config_file],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+
+        # Vérifiez si Logstash s'est exécuté avec succès
+        if result.returncode == 0:
+            print(f"Logstash processing complete for file: {filepath}")
+        else:
+            print(f"Error during Logstash execution: {result.stderr.decode()}")
+            return
 
         # Logstash sends data to Elasticsearch
         index_to_elasticsearch(filepath)
